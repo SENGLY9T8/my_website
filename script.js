@@ -2,22 +2,19 @@
 const board = document.getElementById('game-board');
 const pieces = {
   king: '♔',
-  rook: '♖',
-  knight: '♘',
-  bishop: '♗',
   pawn: '♙',
   queen: '♕'
 };
 
 const startingPositions = [
-  ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'],
+  [null, 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  ['queen', null, null, null, null, null, null, null],
   ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null],
   ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
-  ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook']
+  [null, null, null, null, null, null, null, 'king'],
+  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', null]
 ];
 
 // Create the board
