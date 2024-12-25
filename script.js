@@ -51,6 +51,28 @@ function createBoard() {
   }
 }
 
+// Validate pawn movement
+function isPawnMoveValid(selectedPiece, targetSquare) {
+  const fromRow = parseInt(selectedPiece.parentElement.dataset.row, 10);
+  const fromCol = parseInt(selectedPiece.parentElement.dataset.col, 10);
+  const toRow = parseInt(targetSquare.dataset.row, 10);
+  const toCol = parseInt(targetSquare.dataset.col, 10);
+
+  // Pawns can only move diagonally by 1 square
+  const isDiagonalMove = Math.abs(fromRow - toRow) === 1 && Math.abs(fromCol - toCol) === 1;
+  return isDiagonalMove;
+}
+
+// Validate move for all pieces
+function isMoveValid(selectedPiece, targetSquare) {
+  const pieceType = selectedPiece.dataset.type;
+  if (pieceType && pieceType.includes('pawn')) {
+    return isPawnMoveValid(selectedPiece, targetSquare);
+  }
+  // King and Queen have unrestricted movement (for now)
+  return true;
+}
+
 // Handle piece movement
 let selectedPiece = null;
 board.addEventListener('click', (e) => {
@@ -64,7 +86,9 @@ board.addEventListener('click', (e) => {
     selectedPiece = target;
     selectedPiece.classList.add('selected');
   } else if (selectedPiece) {
-    square.appendChild(selectedPiece);
+    if (isMoveValid(selectedPiece, square)) {
+      square.appendChild(selectedPiece);
+    }
     selectedPiece.classList.remove('selected');
     selectedPiece = null;
   }
