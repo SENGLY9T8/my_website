@@ -58,9 +58,11 @@ function isPawnMoveValid(selectedPiece, targetSquare) {
   const toRow = parseInt(targetSquare.dataset.row, 10);
   const toCol = parseInt(targetSquare.dataset.col, 10);
 
-  // Pawns can only move forward by 1 square in their column
-  const isVerticalMove = fromCol === toCol && Math.abs(fromRow - toRow) === 1;
-  return isVerticalMove;
+  // Pawns can only move forward, backward, left, or right
+  const isVerticalMove = fromCol === toCol && fromRow !== toRow; // Same column, different row
+  const isHorizontalMove = fromRow === toRow && fromCol !== toCol; // Same row, different column
+  
+  return isVerticalMove || isHorizontalMove; // Can move either vertically or horizontally
 }
 
 // Prevent King and Queen from moving
@@ -73,39 +75,3 @@ function isPieceFixed(selectedPiece) {
 function isMoveValid(selectedPiece, targetSquare) {
   const pieceType = selectedPiece.dataset.type;
   
-  // If the piece is fixed (King or Queen), disallow movement
-  if (isPieceFixed(selectedPiece)) {
-    return false; // Fixed pieces cannot move
-  }
-
-  // Handle pawn movement
-  if (pieceType && pieceType.includes('pawn')) {
-    return isPawnMoveValid(selectedPiece, targetSquare);
-  }
-
-  // King and Queen still retain unrestricted movement, but they're fixed in position here
-  return true;
-}
-
-// Handle piece movement
-let selectedPiece = null;
-board.addEventListener('click', (e) => {
-  const target = e.target;
-  const square = target.classList.contains('square') ? target : target.parentElement;
-
-  if (target.classList.contains('piece')) {
-    if (selectedPiece) {
-      selectedPiece.classList.remove('selected');
-    }
-    selectedPiece = target;
-    selectedPiece.classList.add('selected');
-  } else if (selectedPiece) {
-    if (isMoveValid(selectedPiece, square)) {
-      square.appendChild(selectedPiece);
-    }
-    selectedPiece.classList.remove('selected');
-    selectedPiece = null;
-  }
-});
-
-createBoard();
