@@ -58,18 +58,32 @@ function isPawnMoveValid(selectedPiece, targetSquare) {
   const toRow = parseInt(targetSquare.dataset.row, 10);
   const toCol = parseInt(targetSquare.dataset.col, 10);
 
-  // Pawns can only move diagonally by 1 square
-  const isDiagonalMove = Math.abs(fromRow - toRow) === 1 && Math.abs(fromCol - toCol) === 1;
-  return isDiagonalMove;
+  // Pawns can only move forward by 1 square in their column
+  const isVerticalMove = fromCol === toCol && Math.abs(fromRow - toRow) === 1;
+  return isVerticalMove;
+}
+
+// Prevent King and Queen from moving
+function isPieceFixed(selectedPiece) {
+  const pieceType = selectedPiece.dataset.type;
+  return pieceType === 'king' || pieceType === 'queen';
 }
 
 // Validate move for all pieces
 function isMoveValid(selectedPiece, targetSquare) {
   const pieceType = selectedPiece.dataset.type;
+  
+  // If the piece is fixed (King or Queen), disallow movement
+  if (isPieceFixed(selectedPiece)) {
+    return false; // Fixed pieces cannot move
+  }
+
+  // Handle pawn movement
   if (pieceType && pieceType.includes('pawn')) {
     return isPawnMoveValid(selectedPiece, targetSquare);
   }
-  // King and Queen have unrestricted movement (for now)
+
+  // King and Queen still retain unrestricted movement, but they're fixed in position here
   return true;
 }
 
