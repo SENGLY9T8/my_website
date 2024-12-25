@@ -62,7 +62,8 @@ function isPawnMoveValid(selectedPiece, targetSquare) {
   const isVerticalMove = fromCol === toCol && Math.abs(fromRow - toRow) === 1; // Same column, 1 row up/down
   const isHorizontalMove = fromRow === toRow && Math.abs(fromCol - toCol) === 1; // Same row, 1 column left/right
   
-  return isVerticalMove || isHorizontalMove; // Can move either vertically or horizontally
+  // Only vertical or horizontal move by 1 square is valid
+  return (isVerticalMove || isHorizontalMove) && Math.abs(fromRow - toRow) <= 1 && Math.abs(fromCol - toCol) <= 1;
 }
 
 // Prevent King and Queen from moving
