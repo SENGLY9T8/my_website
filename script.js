@@ -58,9 +58,9 @@ function isPawnMoveValid(selectedPiece, targetSquare) {
   const toRow = parseInt(targetSquare.dataset.row, 10);
   const toCol = parseInt(targetSquare.dataset.col, 10);
 
-  // Pawns can only move forward, backward, left, or right
-  const isVerticalMove = fromCol === toCol && fromRow !== toRow; // Same column, different row
-  const isHorizontalMove = fromRow === toRow && fromCol !== toCol; // Same row, different column
+  // Pawns can only move vertically (up or down) or horizontally (left or right), 1 square at a time
+  const isVerticalMove = fromCol === toCol && Math.abs(fromRow - toRow) === 1; // Same column, 1 row up/down
+  const isHorizontalMove = fromRow === toRow && Math.abs(fromCol - toCol) === 1; // Same row, 1 column left/right
   
   return isVerticalMove || isHorizontalMove; // Can move either vertically or horizontally
 }
