@@ -9,22 +9,32 @@ const pieces = {
   queen: '♕'
 };
 
-// Define the cross-shaped starting positions
 const startingPositions = [
-  [null, null, 'king', null, null],
-  [null, null, 'pawn', null, null],
-  ['rook', 'pawn', 'queen', 'pawn', 'rook'],
-  [null, null, 'pawn', null, null],
-  [null, null, 'king', null, null]
+  ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'],
+  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null],
+  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook']
 ];
 
 // Create the board
 function createBoard() {
   board.innerHTML = '';
-  for (let row = 0; row < 5; row++) {
-    for (let col = 0; col < 5; col++) {
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
       const square = document.createElement('div');
       square.classList.add('square');
+      
+      // Alternate colors
+      if ((row + col) % 2 === 1) {
+        square.classList.add('dark');
+      }
+
+      square.dataset.row = row;
+      square.dataset.col = col;
       if (startingPositions[row][col]) {
         const piece = document.createElement('div');
         piece.classList.add('piece');
@@ -32,24 +42,6 @@ function createBoard() {
         piece.dataset.type = startingPositions[row][col];
         square.appendChild(piece);
       }
-
-      // Hide squares to make a cross shape
-      if (
-        (row === 0 && col !== 2) ||
-        (row === 1 && col !== 2) ||
-        (row === 3 && col !== 2) ||
-        (row === 4 && col !== 2) ||
-        (col === 0 && row !== 2) ||
-        (col === 4 && row !== 2)
-      ) {
-        square.classList.add('hidden');
-      }
-
-      // Alternate square colors
-      if ((row + col) % 2 === 0 && !square.classList.contains('hidden')) {
-        square.classList.add('light');
-      }
-
       board.appendChild(square);
     }
   }
@@ -67,7 +59,7 @@ board.addEventListener('click', (e) => {
     }
     selectedPiece = target;
     selectedPiece.classList.add('selected');
-  } else if (selectedPiece && !square.classList.contains('hidden')) {
+  } else if (selectedPiece) {
     square.appendChild(selectedPiece);
     selectedPiece.classList.remove('selected');
     selectedPiece = null;
