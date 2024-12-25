@@ -2,19 +2,20 @@
 const board = document.getElementById('game-board');
 const pieces = {
   king: '♔',
+  queen: '♕',
   pawn: '♙',
-  queen: '♕'
 };
 
+// Custom starting positions
 const startingPositions = [
-  [null, 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  [null, 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top'],
   ['queen', null, null, null, null, null, null, null],
-  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  ['pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top', 'pawn-top'],
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
-  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn'],
+  ['pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom'],
   [null, null, null, null, null, null, null, 'king'],
-  ['pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', 'pawn', null]
+  ['pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', 'pawn-bottom', null],
 ];
 
 // Create the board
@@ -25,18 +26,24 @@ function createBoard() {
       const square = document.createElement('div');
       square.classList.add('square');
       
-      // Alternate colors
+      // Alternate colors for chessboard
       if ((row + col) % 2 === 1) {
         square.classList.add('dark');
       }
 
       square.dataset.row = row;
       square.dataset.col = col;
-      if (startingPositions[row][col]) {
+      const pieceType = startingPositions[row][col];
+      if (pieceType) {
         const piece = document.createElement('div');
         piece.classList.add('piece');
-        piece.textContent = pieces[startingPositions[row][col]];
-        piece.dataset.type = startingPositions[row][col];
+        if (pieceType.includes('pawn')) {
+          piece.textContent = pieces['pawn'];
+          piece.classList.add(pieceType); // Add pawn-top or pawn-bottom class
+        } else {
+          piece.textContent = pieces[pieceType];
+          piece.dataset.type = pieceType;
+        }
         square.appendChild(piece);
       }
       board.appendChild(square);

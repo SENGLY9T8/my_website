@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -36,5 +37,14 @@ body {
   .piece.selected {
     border: 2px solid red;
     border-radius: 50%;
+  }
+  
+  /* Different colors for pawns */
+  .piece.pawn-top {
+    color: blue;
+  }
+  
+  .piece.pawn-bottom {
+    color: green;
   }
   
