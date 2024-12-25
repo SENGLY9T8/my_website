@@ -10,9 +10,10 @@ body {
   
   #game-board {
     display: grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
+    grid-template-columns: repeat(5, 50px);
+    grid-template-rows: repeat(5, 50px);
     border: 2px solid #333;
+    gap: 2px;
   }
   
   .square {
@@ -21,14 +22,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #444;
   }
   
-  .square:nth-child(odd) {
+  .square.light {
     background-color: #eee;
   }
   
-  .square:nth-child(even) {
-    background-color: #444;
+  .square.hidden {
+    visibility: hidden;
   }
   
   .piece {
